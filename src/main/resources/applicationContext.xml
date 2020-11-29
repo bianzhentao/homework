@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+">
+    <!--注入数据源-->
+    <context:property-placeholder location="classpath:database.properties"></context:property-placeholder>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${user}" />
+        <property name="password" value="${password}" />
+        <property name="minIdle" value="${minIdle}" />
+        <property name="maxIdle" value="${maxIdle}" />
+        <property name="driverClassName" value="${driverClassName}" />
+        <property name="url" value="${url}" />
+        <property name="initialSize" value="${initialSize}" />
+        <property name="maxActive" value="${maxActive}" />
+        <property name="maxWait" value="${maxWait}" />
+        <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" />
+        <property name="removeAbandoned" value="${removeAbandoned}" />
+
+        <!-- sql 心跳 -->
+        <property name= "testWhileIdle" value="true"/>
+        <property name= "testOnBorrow" value="false"/>
+        <property name= "testOnReturn" value="false"/>
+        <property name= "validationQuery" value="select 1"/>
+        <property name= "timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name= "numTestsPerEvictionRun" value="${maxActive}"/>
+    </bean>
+    <!--注入session工厂-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--应用数据源-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!--获取mybatis配置文件-->
+        <property name="configLocation" value="classpath:myBatis-config.xml"></property>
+        <!--获取mybatis映射文件-->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mapper/StandardMapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <import resource="classpath:applicationContext-dao.xml"></import>
+    <import resource="classpath:applicationContext-service.xml"></import>
+
+    <!--配置事务-->
+    <!--注册增强类-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--设置事务传播方式-->
+    <tx:advice id="txadvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true"></tx:method>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true"></tx:method>
+            <tx:method name="select*" propagation="SUPPORTS" read-only="true"></tx:method>
+            <tx:method name="count*" propagation="SUPPORTS" read-only="true"></tx:method>
+            <tx:method name="*" propagation="REQUIRED" timeout="3" />
+        </tx:attributes>
+    </tx:advice>
+    <!--配置切面-->
+    <aop:config>
+        <aop:pointcut id="serviceMethod" expression="execution(* com.kgc.ssm2020.homework1123.service..*.*(..))" />
+        <aop:advisor advice-ref="txadvice" pointcut-ref="serviceMethod"/>
+    </aop:config>
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+</beans>
