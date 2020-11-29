@@ -41,6 +41,7 @@ public class StandardController {
         model.addAttribute("pageSize",pageSize);
         model.addAttribute("pageInfo",pageInfo);
 
+
         System.out.println(stand);
         return "index";
     }

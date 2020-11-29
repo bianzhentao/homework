@@ -16,6 +16,7 @@ public interface StandardMapper {
 
     int insertSelective(Standard record);
 
+
     List<Standard> selectByExample(StandardExample example);
 
     Standard selectByPrimaryKey(Integer id);
