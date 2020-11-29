@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -96,7 +97,7 @@ public class StandardController {
         standard.setReleaseDate(releaseDate);
         standard.setImplDate(implDate);
         //获取上传路径
-        String realPath = session.getServletContext().getRealPath("images/uploadfiles/");
+        String realPath = session.getServletContext().getRealPath("images" + File.separator + "uploadfiles");
         //获取原文件名
         String oldName = idPic.getOriginalFilename();
         //获取扩展名
@@ -121,7 +122,8 @@ public class StandardController {
     }
 
     @RequestMapping("update.do")
-    public String update(){
+    public String update(@RequestParam("id") Integer id,Model model){
+        model.addAttribute("st", standardService.selectById(id));
         return "update";
     }
     @RequestMapping("doupdate.do")
@@ -135,6 +137,10 @@ public class StandardController {
                            @RequestParam("implDate")Date implDate,
                            @RequestParam("id_Pic") MultipartFile idPic,
                            HttpServletRequest request, HttpSession session){
+        Standard standard=new Standard();
+        System.out.println(idPic);
+
+        if(idPic!=null||!idPic.equals("")){
         //获取上传路径
         String realPath = session.getServletContext().getRealPath("images/uploadfiles/");
         //获取原文件名
@@ -151,8 +157,8 @@ public class StandardController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Standard standard=new Standard();
-        standard.setPackagePath(newName);
+            standard.setPackagePath(newName);
+        }
         standard.setId(id);
         standard.setStdNum(stdNum);
         standard.setZhname(zhname);
@@ -166,6 +172,21 @@ public class StandardController {
             return "<script>alert('修改成功！');location.href='stand.do';</script>";
         }else {
             return "<script>alert('修改失败！');location.href='update.do';</script>";
+        }
+    }
+    @RequestMapping("toDownload.do")
+    public void down(String filename, HttpServletRequest request, HttpServletResponse response){
+        String realPath = request.getServletContext().getRealPath("images" + File.separator + "uploadfiles");
+        File file=new File(realPath,filename);
+        //设置响应类型  ==》 告诉浏览器当前是下载操作，我要下载东西
+        response.setContentType("application/x-msdownload");
+        //设置下载时文件的显示类型(即文件名称-后缀)   ex：txt为文本类型
+        response.setHeader("Content-Disposition", "attachment;filename=" + filename);
+        //下载文件：将一个路径下的文件数据转到一个输出流中，也就是把服务器文件通过流写(复制)到浏览器端
+        try {
+            Files.copy(file.toPath(), response.getOutputStream());//Files.copy(要下载的文件的路径,响应的输出流)
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

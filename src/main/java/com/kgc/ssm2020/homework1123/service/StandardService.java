@@ -11,5 +11,6 @@ public interface StandardService {
     int updateStandard(Standard standard);
     public PageInfo<Standard> selectStandards(String stand,Integer pageNum,Integer pageSize);
     int getByStdNum(String stdNum);
+    Standard selectById(Integer id);
 
 }

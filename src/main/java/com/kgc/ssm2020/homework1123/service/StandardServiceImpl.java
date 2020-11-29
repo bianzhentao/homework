@@ -51,4 +51,15 @@ public class StandardServiceImpl implements StandardService{
         example.createCriteria().andStdNumEqualTo(stdNum);
         return standardMapper.countByExample(example);
     }
+
+    @Override
+    public Standard selectById(Integer id) {
+        StandardExample example=new StandardExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<Standard> standard=standardMapper.selectByExample(example);
+        if(standard!=null&&standard.size()>0){
+            return standard.get(0);
+        }
+        return null;
+    }
 }

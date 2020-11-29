@@ -41,7 +41,7 @@
             <td>${p.version}</td>
             <td><fmt:formatDate value="${p.releaseDate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
             <td><fmt:formatDate value="${p.implDate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
-            <td><a onclick="">下载</a> <a href="update.do">修改</a></td>
+            <td><a href="/toDownload.do?filename=${p.packagePath}">下载</a> <a href="update.do?id=${p.id}">修改</a></td>
         </tr>
     </c:forEach>
     <tr>

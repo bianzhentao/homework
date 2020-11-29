@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <td align="right">附件：</td>
-                <td align="left"><input type="file" <%--name="id_Pic"--%> value="选择文件"></td>
+                <td align="left"><input type="file" name="id_Pic" value="选择文件"></td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><input type="submit" value="保存" >

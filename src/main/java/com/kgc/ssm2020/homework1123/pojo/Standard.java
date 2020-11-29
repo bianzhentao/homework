@@ -1,5 +1,6 @@
 package com.kgc.ssm2020.homework1123.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,9 +17,9 @@ public class Standard {
 
     private String keys;
 
-
+    @JSONField(format="yyyy-MM-dd")
     private Date releaseDate;
-
+    @JSONField(format="yyyy-MM-dd")
     private Date implDate;
 
     private String packagePath;
