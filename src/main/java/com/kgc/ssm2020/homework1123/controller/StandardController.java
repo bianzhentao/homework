@@ -126,15 +126,15 @@ public class StandardController {
         model.addAttribute("st", standardService.selectById(id));
         return "update";
     }
-    @RequestMapping("doupdate.do")
+    @RequestMapping(value = "doupdate.do",produces="text/html;charset=utf-8")
     @ResponseBody
     public String doupdate(@RequestParam("id")Integer id,
                            @RequestParam("stdNum")String stdNum,
                            @RequestParam("zhname")String zhname,
                            @RequestParam("version")String version,
                            @RequestParam("keys")String keys,
-                           @RequestParam("releaseDate")Date releaseDate,
-                           @RequestParam("implDate")Date implDate,
+                           @RequestParam("releaseDate")String releaseDate,
+                           @RequestParam("implDate")String implDate,
                            @RequestParam("id_Pic") MultipartFile idPic,
                            HttpServletRequest request, HttpSession session){
         Standard standard=new Standard();
@@ -164,8 +164,13 @@ public class StandardController {
         standard.setZhname(zhname);
         standard.setVersion(version);
         standard.setKeys(keys);
-        standard.setReleaseDate(releaseDate);
-        standard.setImplDate(implDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            standard.setReleaseDate(sdf.parse(releaseDate));
+            standard.setImplDate(sdf.parse(implDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         System.out.println(id);
         session.setAttribute("standard",standard);
         if (standardService.updateStandard(standard)>0){

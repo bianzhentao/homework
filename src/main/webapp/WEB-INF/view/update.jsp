@@ -17,7 +17,7 @@
     <form method="post" action="/doupdate.do" enctype="multipart/form-data">
         <h2 align="center">修改标准信息</h2>
         <table align="center" style="border: black solid 1px">
-                <input type="hidden" name="id"></td>
+                <input type="hidden" name="id" value="${st.id}"></td>
             <tr>
                 <td align="right">标准号：</td>
                 <td align="left"><input type="text" name="stdNum" value="${st.stdNum}" required></td>
