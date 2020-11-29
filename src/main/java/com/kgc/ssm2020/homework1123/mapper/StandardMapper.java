@@ -33,5 +33,5 @@ public interface StandardMapper {
 
     List<Standard> Supdate(Standard standard);
 
-    int delete(Standard standard);
+    int delete(Standard stan);
 }
