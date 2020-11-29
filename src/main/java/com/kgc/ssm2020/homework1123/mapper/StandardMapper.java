@@ -2,8 +2,9 @@ package com.kgc.ssm2020.homework1123.mapper;
 
 import com.kgc.ssm2020.homework1123.pojo.Standard;
 import com.kgc.ssm2020.homework1123.pojo.StandardExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface StandardMapper {
     int countByExample(StandardExample example);
@@ -15,7 +16,6 @@ public interface StandardMapper {
     int insert(Standard record);
 
     int insertSelective(Standard record);
-
 
     List<Standard> selectByExample(StandardExample example);
 
@@ -30,4 +30,6 @@ public interface StandardMapper {
     int updateByPrimaryKey(Standard record);
 
     int update(Standard standard);
+
+    List<Standard> Supdate(Standard standard);
 }
