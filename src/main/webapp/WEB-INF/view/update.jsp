@@ -36,12 +36,12 @@
             </tr>
             <tr>
                 <td align="right">发布日期（yyyy-MM--dd）：</td>
-                <td align="left"><input type="text" name="releaseDate" value="${st.releaseDate}" required>
+                <td align="left"><input type="text" name="releaseDate" value="<fmt:formatDate value="${st.releaseDate}" pattern="yyyy-MM-dd"></fmt:formatDate>" required>
                 </td>
             </tr>
             <tr>
                 <td align="right">实施日期（yyyy-MM--dd）：</td>
-                <td align="left"><input type="text" name="implDate" value="${st.implDate}" required>
+                <td align="left"><input type="text" name="implDate" value="<fmt:formatDate value="${st.implDate}" pattern="yyyy-MM-dd"></fmt:formatDate>"  required>
                 </td>
             </tr>
             <tr>

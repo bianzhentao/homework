@@ -137,17 +137,13 @@ public class StandardController {
                            @RequestParam("implDate")String implDate,
                            @RequestParam("id_Pic") MultipartFile idPic,
                            HttpServletRequest request, HttpSession session){
-        Standard standard=new Standard();
-        System.out.println(idPic);
-
-        if(idPic!=null||!idPic.equals("")){
         //获取上传路径
         String realPath = session.getServletContext().getRealPath("images/uploadfiles/");
         //获取原文件名
         String oldName = idPic.getOriginalFilename();
         //获取扩展名
         String extension = FilenameUtils.getExtension(oldName);//原文件后缀
-        //生成新文件名
+            //生成新文件名
         String newName = System.currentTimeMillis() + new Random().nextInt(1000) + "_id_pic." + extension;
         //封装文件对象
         System.out.println(newName);
@@ -157,6 +153,9 @@ public class StandardController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Standard standard=new Standard();
+        System.out.println(extension);
+        if(!extension.equals("")){
             standard.setPackagePath(newName);
         }
         standard.setId(id);

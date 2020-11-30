@@ -55,7 +55,7 @@
     </form>
 </div>
 </body>
-<script src="jquery/jquery-2.1.1.min.js"></script>
+<script src="js/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     function back(){
         window.location="stand.do";
